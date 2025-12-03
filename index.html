@@ -1,0 +1,361 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Randomi Picker</title>
+<script src="res/js/jquery-3.1.1.min.js"></script>
+<style>
+body{margin:0 auto;font-size:100%;}
+.kcontainer{overflow:hidden; font-family:Arial, Helvetica, sans-serif;}
+.kcontainer,.cheader,.wrapperform{display:block;width:100%;height:auto;margin:0 auto;}
+.cheader{padding:3em 0 3em;text-align:center;background-color:#f1f1f1;}
+.cheader h1{font-size:2.5rem;font-weight:400;}
+.xlead{font-size:16px;font-weight:100;}
+.wrapperform{padding:1em 0 2em;}
+.doinflex{display:flex;width:95%;gap:10px;justify-content: space-around;margin:0 auto;padding:1em 0 1em;}
+.dazinput,.dazrezult,#winners-display{display:block;width:50%}
+#adauga{transition:transform .4s ease-in-out;}
+.dazrezult{}
+.zabfooter {color: #555;font-size: 14px;}
+.zabfooter p {line-height: 28px;margin: 0;}
+.zabfooter a {color: #F76422;border-bottom: 1px dotted #aaaaaa;}
+.zabfooter a:hover {text-decoration: none;border-bottom-color: #69BDDB;color: #F80CD9;}
+#results {border: 1px solid #cccccc;border-radius: 5px;height: 70px;padding: 1em .5em 1em;display: none;text-align: center;font-size: 20px;overflow: hidden;box-sizing:border-box;}
+#winners-display:before{content:"";display:block;width:60px;height:60px;margin:0 auto;text-align:center;background-image:url('res/img/star.png');background-repeat:no-repeat;background-size:100% auto;background-position:top center;position:absolute;transform:translate(20px,-70px);}
+#results ul {margin: 50px 0 0 0;padding: 0;list-style: none;color:#239236;}
+#results li {margin-top: 50px;/**transition:transform .4s ease-in-out;**/}
+#chooser {margin-top: 50px;display: none;}
+.instructiuni{display:block;width:80%;margin:0 auto;padding:2em 0 2em;text-align:centre;}
+img.zasteaua{display:block;width:80px;height:80px;margin:0 auto 10px auto;}
+.xcr::-webkit-scrollbar {width: 10px;background-color:#93F;}
+.xcr::-webkit-scrollbar-track {background: #fff;box-shadow:inset 0 0 3px rgba(0,0,0,0.3); }
+.xcr::-webkit-scrollbar-thumb {background:#93F;}
+.xcr::-webkit-scrollbar-thumb:hover {background: #93F;box-shadow:inset 0 0 3px rgba(0,0,0,0.5); }
+.fxcr{scrollbar-color: #bbb #93F;scrollbar-width: thin;overflow-y: scroll;}
+.docolored{color:#93F;}
+
+#winners-display{padding:2em 0 0;}
+.ixfloat{display:block;width:300px;height:auto;position:fixed;bottom:50px;right:20px;background-color:#fff;z-index:99999;padding:1em;box-shadow:0 0 7px rgba(0, 0, 0,0.5);border-radius:5px;transition:transform .4s ease-in-out;}
+#winners-display ol{display:block;width:95%;height:auto;max-height:300px;overflow:auto;padding:0;margin:0 auto;}#winners-display ol li{display:block;width:100%;height:auto;margin:0 auto;padding:.3em 0 .3em;border-bottom:1px solid #ccc;list-style-type: decimal!important;transition:transform .4s ease-in-out;}.list-group-numbered{list-style-type: decimal!important;}.bgwinner{background-color:#93F;color:#fff;}
+.text-uppercase{text-transform:uppercase;font-size:3rem;font-weight:100;}
+.text-light{font-weight:100;}
+textarea.form-width{display:block;width:90%;height:400px;overflow:auto; outline:none;border:0;box-shadow:0 0 2px #93F, inset 0 2px 5px #f1f1f1;border-radius:5px;padding:.7em;font-size:16px;}
+.ignis{display:block;width:90%;height:auto;margin:10px auto 12px auto;text-align:center!important;}
+@media (min-width: 267px) and (max-width: 500px) {.doinflex{display:flex;width:95%;gap:10px;justify-content: center;flex-direction:column;}.dazinput,.dazrezult,#winners-display{display:block;min-width:1 0 0 100%;margin:20px auto 22px ayto; transform:translate(0,0);}}
+#adauga{visibility:visible;transition:visibility .4s ease-in-out,display .4s ease-in-out;}
+/* --- Base style for the HTML <button> tag --- */
+button {
+    /* Layout and Text */
+    display: inline-block;
+    padding: 12px 30px; /* Vertical and horizontal padding */
+    margin: 8px 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.5;
+    
+    /* Aesthetics */
+    color: #ffffff; /* White text */
+    background: linear-gradient(145deg, #ff7e5f, #feb47b); /* Warm, soft gradient */
+    border: none;
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all changes */
+    
+    /* Ensures button text doesn't get selected on quick clicks */
+    user-select: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* --- Hover effect (makes it look like it's lifting) --- */
+button:hover {
+    background: linear-gradient(145deg, #feb47b, #ff7e5f); /* Reverse gradient on hover */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+    transform: translateY(-2px); /* Lifts the button slightly */
+}
+
+/* --- Active/Click effect (makes it look like it's being pressed) --- */
+button:active {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Flatter shadow */
+    transform: translateY(1px); /* Pushes the button down slightly */
+}
+
+
+/* --- Button Class (Looks exactly the same as the <button> tag) --- */
+.catchy-button {
+    /* Inheritance of the style is done by copying the <button> styles */
+    display: inline-block;
+    padding: 12px 30px;
+    margin: 8px 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    line-height: 1.5;
+    
+    color: #ffffff;
+    background: linear-gradient(145deg, #ff7e5f, #feb47b);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    user-select: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* --- Hover/Active effects for the class --- */
+.catchy-button:hover {
+    background: linear-gradient(145deg, #feb47b, #ff7e5f);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-2px);
+}
+
+.catchy-button:active {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transform: translateY(1px);
+}
+
+</style>
+</head>
+
+<body>
+<!-- Main Container -->
+<div class="kcontainer">
+ <!-- Header -->
+ <div class="cheader">
+    <h1><span class="docolored">DA</span>leator</h1>
+	<p class="xlead">Add contestants and see who will win using random picker.</p>
+ </div>
+<!-- end Header --->
+        
+<!--- Form wrapper --->
+ <div id="doallrandom" class="wrapperform">
+ <!--- flex --->
+  <div class="doinflex">
+  <!--- col 1 --->
+   <div id="adauga" class="dazinput">
+     <h2>Contestants</h2>
+      <p>Add each <em>name</em> one per line</p>
+       <textarea id="values" class="form-width xcr fxcr" rows="15"></textarea>
+    </div>
+<!---/ end col 1 --->  
+<!--- col 2 --->
+<div id="rezultatul" class="dazrezult">
+    <h2>The winner is:</h2>
+    <p id="instructions">
+      
+    </p>
+<!--- aleator rezults --->
+<div id="results">
+	</div>
+<!---/ end aleator rezults --->
+<!--- aleator button --->
+<div id="chooser" class="">
+   <button id="alege" type="button" class="button ignis">Random Winner</button>
+  <!--
+<span id="reset-button" class="button ignis"></span>
+--->
+   <span id="toggle-list-button" class="button catchy-button ignis">Show List</span>
+   
+</div>
+<!---/end aleator button --->
+</div>
+<!---/end col 2 --->
+
+<!--- col 3 --->
+<div id="winners-display" style="display:none;"></div>
+<!---/end col 3 --->
+</div>
+<!---/end flex --->
+<!--- Instructiuni --->
+         <div class="cheader">
+         <p class="instructiuni">you can add names or numbers here, one per line and click the button <strong>Random Winner</strong><br>
+			Whatever you tipy is not saved on host</p>
+        </div>
+<!---/ end Instructiuni --->								
+							
+    </div>
+<!---/ End Form wrapper --->
+
+
+
+<div id="winners-displayx" style="display:none;"></div>
+
+
+
+</div>
+
+<!--/ end Main Container -->
+										
+<div class="doinflex">
+<p>Dascent.substack.com</p>
+</div>			
+
+
+<script>
+(function() {
+    var RandomManager = function() {
+        var $valuesBox = $('#values');
+        var $instructions = $('#instructions');
+        var $chooserBox = $('#chooser');
+        var $resultBox = $('#results');
+        var $winnersDisplayBox = $('#winners-display');
+        var allWinners = [];
+
+        function addHandlers() {
+            $valuesBox.on('change keyup blur', handleBoxChange);
+            $chooserBox.on('click', 'button', chooseWinner);
+            $('#reset-button').on('click', resetAll);
+        }
+
+        function handleBoxChange() {
+            if ($valuesBox.val().trim() === '') {
+                $resultBox.fadeOut(400).empty();
+                $chooserBox.fadeOut(400, function() {
+                    $instructions.fadeIn(400);
+                    $winnersDisplayBox.fadeIn(400);
+                });
+            } else {
+                $instructions.fadeOut(400, function() {
+                    $chooserBox.fadeIn(400);
+                });
+            }
+        }
+
+        function chooseWinner() {
+            var values = $valuesBox.val().trim().split("\n");
+            for (var i = 0; i < values.length; i++){
+                values[i] = values[i].trim();
+            }
+            if (values.length == 1) {
+                handleOneWinner(values);
+            } else {
+                var chopIt = false;
+                if (values.length < 20) {
+                    values.push.apply(values, values);
+                } else if (values.length > 50) {
+                    chopIt = true;
+                }
+                var shuffledValues = shuffleValues(values.slice());
+                if (chopIt) {
+                    shuffledValues = shuffledValues.slice(0, 50);
+                }
+                animateResults(shuffledValues);
+                var winner = shuffledValues[0];
+                allWinners.push(winner);
+                displayWinners();
+                $("#adauga").css({ "display": "none" });
+                $("#reset-button").css({ "display": "block", "width": "100%" });
+                $("#winners-display").css({ "display": "block", "width": "50%" });
+                $("#chooser").css({ "display": "block", "width": "100%" });
+            }
+        }
+
+        function animateResults(values) {
+            $resultBox.show();
+            $resultBox[0].scrollTop = 0;
+            $resultBox.empty();
+
+            var resultList = $('<ul />');
+            $.each(values, function(i, value) {
+                var li = document.createElement('li');
+                li.appendChild(document.createTextNode(value));
+                resultList.append(li);
+            });
+
+            $resultBox.append(resultList);
+            //Set opacity 0 during animation.
+            $resultBox.css({"opacity":"1"});
+
+            $resultBox.animate({
+                scrollTop: $resultBox[0].scrollHeight
+            }, 800, function(){
+                //Set opacity 1 after animation.
+                $resultBox.css({"opacity":"0"});
+            });
+        }
+
+        function shuffleValues(values) {
+            for (var i = values.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = values[i];
+                values[i] = values[j];
+                values[j] = temp;
+            }
+            return values;
+        }
+
+        function handleOneWinner(values) {
+            var winner = values[0];
+            allWinners.push(winner);
+            displayWinners();
+            $('#doallrandom').html('<div class="cheader bgwinner"><img class="zasteaua" src="https://zentasticarts.ro/wp-content/uploads/2022/02/star_2b50.png" alt="Winner" width="80"/><h1 class="text-uppercase">Congrats!</h1><h2 class="text-light">This is the winner</h2><p>You already know the winner!!</p><p> The winner is: <strong>' + winner + '</strong></p></div>');
+        }
+
+        function displayWinners() {
+            $winnersDisplayBox.empty();
+            if (allWinners.length > 0) {
+                var winnersList = $('<ol class="list-group-numbered"></ol>');
+                $.each(allWinners, function(index, winner) {
+                    winnersList.append($('<li></li>').text(winner));
+                });
+                $winnersDisplayBox.append(winnersList);
+            } else {
+                $winnersDisplayBox.html("<p>No winners yet.</p>");
+            }
+        }
+
+        function resetAll() {
+            $valuesBox.val('');
+            allWinners = [];
+            displayWinners();
+            $resultBox.fadeOut(200).empty();
+            $instructions.fadeIn(200);
+            $("#adauga").css({ "visibility": "visible", "display": "block" });
+            $(".dazrezult").css({ "width": "50%" });
+            $("#winners-display").css({ "display": "none", "width": "50%" });
+            $("#chooser").css({ "display": "block", "width": "100%" });
+            $("#reset-button").css({ "display": "none", "width": "50%", "text-align": "center", "margin-top": "10px" });
+            $("#alege").css({ "display": "none", "width": "50%", "text-align": "center", "margin-top": "10px" });
+            $("#toggle-list-button").css({ "display": "none", "width": "100%", "text-align": "center", "margin-top": "10px" });
+        }
+
+        addHandlers();
+    };
+
+    function toggleUserList() {
+        var $valuesBox = $('#adauga');
+        var $toggleButton = $('#toggle-list-button');
+
+        if ($valuesBox.is(':visible')) {
+            $valuesBox.fadeOut(400);
+            $('#adauga').css({ "display": "block", "width": "100%" });
+            $toggleButton.text('Show List');
+        } else {
+            $valuesBox.fadeIn(400);
+            $toggleButton.text('Hide List');
+        }
+    }
+
+    $(document).ready(function() {
+        $('#toggle-list-button').on('click', function(event) {
+            event.stopPropagation();
+            toggleUserList();
+        });
+
+        $('#toggle-list-button').text($('#adauga').is(':visible') ? 'Hide List' : 'Show List');
+    });
+
+    new RandomManager();
+})();
+</script>
+</body>
+</html>
